@@ -4,3 +4,11 @@ export interface Candidate {
   step: "Entrevista inicial" | "Entrevista técnica" | "Oferta" | "Asignación" | "Rechazo";
   comments: string;
 }
+
+export const STEPS : Candidate['step'][] =[
+  "Entrevista inicial",
+  "Entrevista técnica",
+  "Oferta",
+  "Asignación",
+  "Rechazo"
+]

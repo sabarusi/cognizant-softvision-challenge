@@ -6,10 +6,10 @@ import {FaPlus} from 'react-icons/fa'
 interface Props{
     list:Candidate[],
     title:Candidate['step'],
-    add: (candidate:Candidate)=> void
-}
+    handleCandidates: (candidate:Candidate, action:string) => void
+} 
 
-const Column : React.FC<Props> = ({list, title, add}) => {
+const Column : React.FC<Props> = ({list, title, handleCandidates}) => {
     const [addToggle, setAddToggle] = useState<boolean>(false)
     const handleAddToggle = () => setAddToggle(!addToggle)
     return (
@@ -21,12 +21,12 @@ const Column : React.FC<Props> = ({list, title, add}) => {
                                                  </div> 
                                                 : null}
             </div>
-            {addToggle ? <AddForm add={add} close={handleAddToggle}/> :null}
+            {addToggle ? <AddForm add={(candidate)=> handleCandidates(candidate, "ADD")} close={handleAddToggle}/> :null}
             {!list.length 
                          ? <div className="flex text-base text-blue-500 bg-white m-2 h-20 font-light items-center justify-center rounded-md">
                                 <p>No hay candidatos...</p>
                             </div>
-                         : list.map(e=> <CandidateItem key={e.id} {...e}/>) 
+                         : list.map(e=> <CandidateItem key={e.id} removeCandidate={(c)=>handleCandidates(c,"DELETE")} moveCandidate={(c)=>handleCandidates(c,"MOVE")} {...e}/>) 
             }
         </div>
     )
