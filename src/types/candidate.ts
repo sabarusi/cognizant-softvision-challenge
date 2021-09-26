@@ -12,3 +12,8 @@ export const STEPS : Candidate['step'][] =[
   "Asignación",
   "Rechazo"
 ]
+export enum ACTIONS{
+  ADD,
+  DELETE,
+  MOVE
+}

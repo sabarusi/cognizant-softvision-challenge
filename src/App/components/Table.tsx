@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import {STEPS} from "../../types/candidate"
 import Column from './Column';
-import {Candidate, STEPS} from "../../types/candidate"
-import api from '../../api';
-
-
+import useCandidates from '../../hooks/useCandidates';
 
 const groupBy = (xs:Array<any>, key:string) =>{
     return xs.reduce(function(rv, x) {
@@ -13,38 +11,12 @@ const groupBy = (xs:Array<any>, key:string) =>{
   };
 
 const Table = () => {
-    const [candidates, setCandidates] = useState<Candidate[]>([])
-    const groupedCandidates = React.useMemo(()=> groupBy(candidates, 'step'),[candidates]) //it's probably better to keep the grouped ones directly on the state, still better option than .filter().map() approach.
-    
-    
-    const addCandidate = (candidate:Candidate , list:Candidate[]) :Candidate[] => [...list, candidate]
-    const removeCandidate = (candidate:Candidate):Candidate[] => candidates.filter(c=> c.id !== candidate.id)
-    const moveCandidate = (candidate:Candidate) => {
-      const filteredList = removeCandidate(candidate) as Candidate[]
-      return addCandidate(candidate, filteredList);
-    }
+    const [candidates, handleCandidates] = useCandidates([]);
 
-    const handleCandidates = (candidate:Candidate, action:string) =>{
-        switch(action){
-            case "ADD": {
-              setCandidates ( addCandidate(candidate, candidates) );
-              return;
-            }
-            case "DELETE": {
-              setCandidates( removeCandidate(candidate))
-              return;
-            }
-            case "MOVE": {
-              setCandidates ( moveCandidate(candidate) )
-              return;
-            }
-        } 
-      }
-    useEffect(() => {
-        api.candidates.list()
-                      .then(res=>setCandidates(res))
-    }, [])
-
+    const groupedCandidates = React.useMemo(()=> groupBy(candidates, 'step'),[candidates]) 
+    //it's probably best to keep the grouped ones directly on the state, 
+    //still better option than .filter().map() approach.
+    
     return (
         <div className="grid grid-cols-5 gap-4 text-3xl py-5 px-3">
           {STEPS.map(e=> <Column list={groupedCandidates[e] || []} 

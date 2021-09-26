@@ -17,13 +17,13 @@ const CandidateItem : React.FC<Props> = ({name, id, comments, step, removeCandid
             <div className="flex w-full text-xs h-4 justify-end text-red-300 cursor-pointer">
                 <FaTrash className="cursor-pointer" role="button" aria-label="delete candidate" onClick={()=>removeCandidate({name,id,comments,step} as Candidate)}/>
             </div>
-            <div className="flex flex-row flex-1 justify-around w-full">
+            <div className="flex flex-row flex-1 justify-center w-full">
               {step !== 'Entrevista inicial' ?
                 <div className="flex items-center">
                     <FaArrowLeft className="text-lg justify-start cursor-pointer" role="button" aria-label="move left"
                                  onClick={()=>moveCandidate({name, id, comments, step: STEPS[ STEPS.indexOf(step) -1 ] } as Candidate)}/>
                 </div> : null}
-                <div className="px-3">
+                <div className="px-3 w-4/6">
                     <p className="text-lg">{name}</p>
                     {comments? <p className="text-sm text-blue-400">
                                             {comments}

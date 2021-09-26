@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import {Candidate} from "../../types/candidate"
+import {Candidate, ACTIONS} from "../../types/candidate"
 import CandidateItem from './CandidateItem'
 import {FaPlus} from 'react-icons/fa'
 
 interface Props{
     list:Candidate[],
     title:Candidate['step'],
-    handleCandidates: (candidate:Candidate, action:string) => void
+    handleCandidates: (candidate:Candidate, action:ACTIONS) => void
 } 
 
 const Column : React.FC<Props> = ({list, title, handleCandidates}) => {
@@ -21,12 +21,12 @@ const Column : React.FC<Props> = ({list, title, handleCandidates}) => {
                                                  </div> 
                                                 : null}
             </div>
-            {addToggle ? <AddForm add={(candidate)=> handleCandidates(candidate, "ADD")} close={handleAddToggle}/> :null}
+            {addToggle ? <AddForm add={(candidate)=> handleCandidates(candidate, ACTIONS.ADD)} close={handleAddToggle}/> :null}
             {!list.length 
                          ? <div className="flex text-base text-blue-500 bg-white m-2 h-20 font-light items-center justify-center rounded-md">
                                 <p>No hay candidatos...</p>
                             </div>
-                         : list.map(e=> <CandidateItem key={e.id} removeCandidate={(c)=>handleCandidates(c,"DELETE")} moveCandidate={(c)=>handleCandidates(c,"MOVE")} {...e}/>) 
+                         : list.map(e=> <CandidateItem key={e.id} removeCandidate={(c)=>handleCandidates(c,ACTIONS.DELETE)} moveCandidate={(c)=>handleCandidates(c,ACTIONS.MOVE)} {...e}/>) 
             }
         </div>
     )
